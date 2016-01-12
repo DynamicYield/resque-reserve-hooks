@@ -4,12 +4,12 @@ module Resque
   class Job
     extend Resque::Plugins::Loner::LegacyHelpers
 
-    def self.is_throttled_job
+    def self.is_throttled_job payload
       constantize(payload['class']).instance_variable_get(:@__is_throttled_job)
     end
 
     def self.get_args_from_payload payload
-      if self.is_throttled_job
+      if self.is_throttled_job payload
         payload['args'][1 .. -1]
       else
         payload['args']
@@ -37,7 +37,7 @@ module Resque
         job.payload_class.send(hook, *job_args)
       end
       if can_reserve
-        Resque::Plugins::Loner::Helpers.mark_loner_as_unqueued(queue, job) if job && !Resque.inline? && self.is_throttled_job
+        Resque::Plugins::Loner::Helpers.mark_loner_as_unqueued(queue, job) if job && !Resque.inline? && self.is_throttled_job(payload)
         # run after_reserve_ hooks
         job.after_reserve_hooks.all? do |hook|
           job.payload_class.send(hook, *job_args)
