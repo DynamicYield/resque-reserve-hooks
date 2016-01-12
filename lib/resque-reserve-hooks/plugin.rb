@@ -6,4 +6,8 @@ Resque::Plugin.module_eval do
   def after_reserve_hooks(job)
     job.methods.grep(/^after_reserve/).sort
   end
+
+  def after_requeue_hooks(job)
+    job.methods.grep(/^after_requeue/).sort
+  end
 end

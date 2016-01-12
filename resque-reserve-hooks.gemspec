@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'resque-reserve-hooks'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2016-01-13'
   s.summary     = 'Reserve hooks for Resque plugins'
   s.description = 'Reserve hooks for Resque plugins'
